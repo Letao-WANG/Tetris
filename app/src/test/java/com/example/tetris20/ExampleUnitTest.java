@@ -1,4 +1,4 @@
-package com.example.tetris;
+package com.example.tetris20;
 
 import org.junit.Test;
 
