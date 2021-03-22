@@ -2,7 +2,6 @@ package com.example.tetris20;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         ShapeStats.initShapes();
-        blocksTransfer(blockAdapter.movingBlocks, ShapeStats.shapes.get(1));
+        blocksTransfer(blockAdapter.movingBlocks, ShapeStats.shapes.get(0));
 
         mButtonLeft = findViewById(R.id.button_left);
         mButtonRight = findViewById(R.id.button_right);
@@ -63,30 +62,25 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 myHandler.sendEmptyMessage(0);
             }
-        },0,500);
+        }, 0, 1000);
     }
 
     public void update() {
         // blocks go down
-        for (int x = 9; x > 0; x--) {
-            for (int y = 0; y < 10; y++) {
-                blockAdapter.movingBlocks[x][y] = blockAdapter.movingBlocks[x - 1][y];
-                blockAdapter.movingBlocks[x - 1][y] = 0;
-            }
-        }
+        blocksDown(blockAdapter.movingBlocks);
 
         // Check for collision
-        for (int i = 0; i < 10; i++)
-            for (int j = 0; j < 10; j++){
-                if((blockAdapter.fixedBlocks[i][j] == 1 && blockAdapter.movingBlocks[i-1][j] == 1)
-                    || blockAdapter.movingBlocks[9][j] == 1){
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if ((blockAdapter.fixedBlocks[i][j] == 1 && blockAdapter.movingBlocks[i - 1][j] == 1)
+                        || blockAdapter.movingBlocks[9][j] == 1) {
                     for (int x = 9; x >= 0; x--) {
                         for (int y = 0; y < 10; y++) {
                             blockAdapter.fixedBlocks[x][y] += blockAdapter.movingBlocks[x][y];
                             blockAdapter.movingBlocks[x][y] = 0;
 
                             // check if game over
-                            if(blockAdapter.fixedBlocks[x][y] > 1) {
+                            if (blockAdapter.fixedBlocks[x][y] > 1) {
                                 gameOver();
                             }
                         }
@@ -96,42 +90,88 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
+        }
+
+        // check if clear blocks
+        boolean isClear = true;
+        for (int j = 0; j < 10; j++) {
+            if (blockAdapter.fixedBlocks[9][j] == 0) {
+                isClear = false;
+            }
+        }
+        if (isClear) {
+            blocksDown(blockAdapter.fixedBlocks);
+        }
+
 
         blockAdapter.addBlocks();
     }
 
-    void blocksTransfer(int[][] newBlocks, int[][] oldBlocks){
+    void blocksTransfer(int[][] newBlocks, int[][] oldBlocks) {
         for (int x = 0; x < 10; x++)
             for (int y = 0; y < 10; y++)
                 newBlocks[x][y] = oldBlocks[x][y];
     }
 
-    void newShape(int number){
+    void newShape(int number) {
         blocksTransfer(blockAdapter.movingBlocks, ShapeStats.shapes.get(number));
     }
 
-    void gameOver(){
-        if(timer != null){
+    void gameOver() {
+        if (timer != null) {
             timer.cancel();
-            // 一定设置为null，否则定时器不会被回收
+            // need to set null
             timer = null;
         }
     }
 
-    void movingBlocksToLeft(){
+    void movingBlocksToLeft() {
+
+        // check for collision
         for (int x = 0; x < 10; x++) {
             for (int y = 1; y < 10; y++) {
-                blockAdapter.movingBlocks[x][y-1] = blockAdapter.movingBlocks[x][y];
+                if (blockAdapter.fixedBlocks[x][y - 1] == 1 && blockAdapter.movingBlocks[x][y] == 1 )
+                    return;
+                if(blockAdapter.movingBlocks[x][0] == 1)
+                    return;
+            }
+        }
+
+        // move
+        for (int x = 0; x < 10; x++) {
+            for (int y = 1; y < 10; y++) {
+                blockAdapter.movingBlocks[x][y - 1] = blockAdapter.movingBlocks[x][y];
                 blockAdapter.movingBlocks[x][y] = 0;
             }
         }
     }
 
-    void movingBlocksToRight(){
+    void movingBlocksToRight() {
+
+        // check for collision
         for (int x = 0; x < 10; x++) {
             for (int y = 8; y >= 0; y--) {
-                blockAdapter.movingBlocks[x][y+1] = blockAdapter.movingBlocks[x][y];
+                if (blockAdapter.fixedBlocks[x][y + 1] == 1 && blockAdapter.movingBlocks[x][y] == 1 )
+                    return;
+                if(blockAdapter.movingBlocks[x][9] == 1)
+                    return;
+            }
+        }
+
+        // move
+        for (int x = 0; x < 10; x++) {
+            for (int y = 8; y >= 0; y--) {
+                blockAdapter.movingBlocks[x][y + 1] = blockAdapter.movingBlocks[x][y];
                 blockAdapter.movingBlocks[x][y] = 0;
+            }
+        }
+    }
+
+    void blocksDown(int[][] blocks) {
+        for (int x = 9; x > 0; x--) {
+            for (int y = 0; y < 10; y++) {
+                blocks[x][y] = blocks[x - 1][y];
+                blocks[x - 1][y] = 0;
             }
         }
     }
