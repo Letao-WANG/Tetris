@@ -2,6 +2,7 @@ package com.example.tetris20;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,8 +17,10 @@ public class MainActivity extends AppCompatActivity {
     private GridView mGridView;
     BlockAdapter blockAdapter;
     Timer timer;
+    int timeInterval=800;
     int movingBlocksNumber;
     Random random;
+    int grade;
     private Button mButtonLeft;
     private Button mButtonRight;
     private Button mButtonRotate;
@@ -40,6 +43,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        grade = intent.getIntExtra("grade", 3);
+
+        switch (grade) {
+            case 1:
+                timeInterval=1200;
+                break;
+            case 2:
+                timeInterval=1000;
+                break;
+            case 3:
+                timeInterval=800;
+                break;
+            case 4:
+                timeInterval=600;
+                break;
+            case 5:
+                timeInterval=400;
+                break;
+            default:
+                break;
+        }
 
         mGridView = findViewById(R.id.gridView);
         blockAdapter = new BlockAdapter(this);
@@ -88,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 myHandler.sendEmptyMessage(0);
             }
-        }, 0, 1000);
+        }, 0, timeInterval);
     }
 
     public void update() {
