@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         blockAdapter = new BlockAdapter(this);
         mGridView.setAdapter(blockAdapter);
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 15; i++)
             for (int j = 0; j < 10; j++) {
                 blockAdapter.movingBlocks[i][j] = 0;
                 blockAdapter.fixedBlocks[i][j] = 0;
@@ -83,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
         blocksDown(blockAdapter.movingBlocks);
 
         // Check for collision
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 10; j++) {
                 if ((blockAdapter.fixedBlocks[i][j] == 1 && blockAdapter.movingBlocks[i - 1][j] == 1)
-                        || blockAdapter.movingBlocks[9][j] == 1) {
-                    for (int x = 9; x >= 0; x--) {
+                        || blockAdapter.movingBlocks[14][j] == 1) {
+                    for (int x = 14; x >= 0; x--) {
                         for (int y = 0; y < 10; y++) {
                             blockAdapter.fixedBlocks[x][y] += blockAdapter.movingBlocks[x][y];
                             blockAdapter.movingBlocks[x][y] = 0;
@@ -100,8 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     // new shape
                     random = new Random();
-                    movingBlocksNumber = random.nextInt(2);
-                    newShape(movingBlocksNumber);
+                    newShape(random.nextInt(5));
                     break;
                 }
             }
@@ -110,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         // check if clear blocks
         boolean isClear = true;
         for (int j = 0; j < 10; j++) {
-            if (blockAdapter.fixedBlocks[9][j] == 0) {
+            if (blockAdapter.fixedBlocks[14][j] == 0) {
                 isClear = false;
             }
         }
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void blocksTransfer(int[][] newBlocks, int[][] oldBlocks) {
-        for (int x = 0; x < 10; x++)
+        for (int x = 0; x < 15; x++)
             for (int y = 0; y < 10; y++)
                 newBlocks[x][y] = oldBlocks[x][y];
     }
@@ -132,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         blocksTransfer(blockAdapter.movingBlocks, ShapeStats.shapes.get(number));
         blockAdapter.centerX = 1;
         blockAdapter.centerY = 4;
+        movingBlocksNumber = number;
     }
 
     void gameOver() {
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     void movingBlocksToLeft() {
 
         // check for collision
-        for (int x = 0; x < 10; x++) {
+        for (int x = 0; x < 15; x++) {
             for (int y = 1; y < 10; y++) {
                 if (blockAdapter.fixedBlocks[x][y - 1] == 1 && blockAdapter.movingBlocks[x][y] == 1)
                     return;
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // move
-        for (int x = 0; x < 10; x++) {
+        for (int x = 0; x < 15; x++) {
             for (int y = 1; y < 10; y++) {
                 blockAdapter.movingBlocks[x][y - 1] = blockAdapter.movingBlocks[x][y];
                 blockAdapter.movingBlocks[x][y] = 0;
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     void movingBlocksToRight() {
 
         // check for collision
-        for (int x = 0; x < 10; x++) {
+        for (int x = 0; x < 15; x++) {
             for (int y = 8; y >= 0; y--) {
                 if (blockAdapter.fixedBlocks[x][y + 1] == 1 && blockAdapter.movingBlocks[x][y] == 1)
                     return;
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // move
-        for (int x = 0; x < 10; x++) {
+        for (int x = 0; x < 15; x++) {
             for (int y = 8; y >= 0; y--) {
                 blockAdapter.movingBlocks[x][y + 1] = blockAdapter.movingBlocks[x][y];
                 blockAdapter.movingBlocks[x][y] = 0;
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void blocksDown(int[][] blocks) {
-        for (int x = 9; x > 0; x--) {
+        for (int x = 14; x > 0; x--) {
             for (int y = 0; y < 10; y++) {
                 blocks[x][y] = blocks[x - 1][y];
                 blocks[x - 1][y] = 0;
@@ -206,12 +206,34 @@ public class MainActivity extends AppCompatActivity {
 
     int[][] rotate(int centerX, int centerY, int[][] blocks) {
 
+
         if(centerX ==0 || centerX == blocks.length-1 || centerY == 0 || centerY == blocks[0].length-1){
             return blocks;
         }
 
         int l = 3;//length
         int[][] result = new int[blocks.length][blocks[0].length];
+
+        // if blocks is I shape
+        if(movingBlocksNumber == 4){
+            if(blocks[centerX+1][centerY] == 1){
+                result[centerX-1][centerY] = 1;
+                result[centerX][centerY] = 1;
+                result[centerX+1][centerY] = 1;
+                result[centerX+2][centerY] = 1;
+            }
+            else if(blocks[centerX][centerY+1] == 1){
+                result[centerX][centerY-1] = 1;
+                result[centerX][centerY] = 1;
+                result[centerX][centerY+1] = 1;
+                result[centerX][centerY+2] = 1;
+            }
+        }
+
+        // if blocks is O shape
+        if(movingBlocksNumber == 2){
+            return blocks;
+        }
 
         for (int i = centerX - 1; i <= centerX + 1; i++) {
             for (int j = centerY - 1; j <= centerY + 1; j++) {

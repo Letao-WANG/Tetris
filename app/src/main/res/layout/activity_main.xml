@@ -20,24 +20,24 @@
             android:id="@+id/button_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="16dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="15dp"
             android:text="LEFT"/>
 
         <Button
             android:id="@+id/button_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="16dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="15dp"
             android:text="RIGHT"/>
 
         <Button
             android:id="@+id/button_rotate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="16dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="15dp"
             android:text="rotate"/>
 
         <Button
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textSize="16dp"
+            android:textSize="15dp"
             android:text="pause"/>
 
     </LinearLayout>

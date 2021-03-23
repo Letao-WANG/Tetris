@@ -12,9 +12,9 @@ public class BlockAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    public int movingBlocks[][] = new int[10][10];
-    public int fixedBlocks[][] = new int[10][10];
-    public int allBlocks[][] = new int[10][10];
+    public int movingBlocks[][] = new int[15][10];
+    public int fixedBlocks[][] = new int[15][10];
+    public int allBlocks[][] = new int[15][10];
     public int centerX, centerY;
 
 
@@ -25,7 +25,7 @@ public class BlockAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 100;
+        return 150;
     }
 
     @Override
@@ -76,8 +76,8 @@ public class BlockAdapter extends BaseAdapter {
     }
 
     public void addBlocks(){
-        for (int i = 0; i < 10; i++)
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < allBlocks.length; i++)
+            for (int j = 0; j < allBlocks[0].length; j++) {
                 allBlocks[i][j] = movingBlocks[i][j] + fixedBlocks[i][j];
             }
     }

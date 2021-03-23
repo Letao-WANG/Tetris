@@ -8,25 +8,51 @@ public class ShapeStats {
 
     public static void initShapes() {
 
-        int[][] Lshape = voidShape();
+        int[][] lShape = voidShape();
         // L shape
-        Lshape[0][4] = 1;
-        Lshape[1][4] = 1;
-        Lshape[2][4] = 1;
-        Lshape[2][5] = 1;
-        shapes.put(0, Lshape);
+        lShape[0][4] = 1;
+        lShape[1][4] = 1;
+        lShape[2][4] = 1;
+        lShape[2][5] = 1;
+        shapes.put(0, lShape);
 
-        int[][] shape = voidShape();
+        int[][] sShape = voidShape();
         // S shape
-        shape[0][3] = 1;
-        shape[1][3] = 1;
-        shape[1][4] = 1;
-        shape[2][4] = 1;
-        shapes.put(1, shape);
+        sShape[0][3] = 1;
+        sShape[1][3] = 1;
+        sShape[1][4] = 1;
+        sShape[2][4] = 1;
+        shapes.put(1, sShape);
+
+        int[][] oShape = voidShape();
+        // O shape
+        oShape[0][3] = 1;
+        oShape[0][4] = 1;
+        oShape[1][3] = 1;
+        oShape[1][4] = 1;
+        shapes.put(2, oShape);
+
+        int[][] tShape = voidShape();
+        // T shape
+        tShape[0][4] = 1;
+        tShape[1][4] = 1;
+        tShape[1][3] = 1;
+        tShape[2][4] = 1;
+        shapes.put(3, tShape);
+
+
+        int[][] iShape = voidShape();
+        // I shape
+        iShape[0][4] = 1;
+        iShape[1][4] = 1;
+        iShape[2][4] = 1;
+        iShape[3][4] = 1;
+        shapes.put(4, oShape);
+
     }
 
     static int[][] voidShape(){
-        int[][] shape = new int[10][10];
+        int[][] shape = new int[15][10];
         for (int[] line : shape)
             for(int n : line)
                 n = 0;
