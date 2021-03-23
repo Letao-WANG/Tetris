@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         //重写handleMessage方法,根据msg中what的值判断是否执行后续操作
         public void handleMessage(Message msg) {
             if (msg.what == 0) {
+                blocksDown(blockAdapter.movingBlocks);
                 update();
                 blockAdapter.notifyDataSetChanged();
             }
@@ -58,14 +59,21 @@ public class MainActivity extends AppCompatActivity {
         mButtonRotate = findViewById(R.id.button_rotate);
         mButtonMoveDown = findViewById(R.id.button_move_down);
         mButtonPause = findViewById(R.id.button_pause);
+
         mButtonLeft.setOnClickListener(v -> {
             movingBlocksToLeft();
+            update();
+            blockAdapter.notifyDataSetChanged();
         });
         mButtonRight.setOnClickListener(v -> {
             movingBlocksToRight();
+            update();
+            blockAdapter.notifyDataSetChanged();
         });
         mButtonRotate.setOnClickListener(v -> {
             movingBlocksRotate();
+            update();
+            blockAdapter.notifyDataSetChanged();
         });
         mButtonMoveDown.setOnClickListener(v -> {
             moveDown();
@@ -85,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void update() {
         // blocks go down
-        blocksDown(blockAdapter.movingBlocks);
+//        blocksDown(blockAdapter.movingBlocks);
 
         // Check for collision
         for (int i = 1; i < 15; i++) {
@@ -285,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         while(BlocksEquals(lastFixedBlocks, blockAdapter.fixedBlocks)){
+            blocksDown(blockAdapter.movingBlocks);
             update();
         }
     }
