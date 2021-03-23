@@ -118,9 +118,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void update() {
-        // blocks go down
-//        blocksDown(blockAdapter.movingBlocks);
-
         // Check for collision
         for (int i = 1; i < 15; i++) {
             for (int j = 0; j < 10; j++) {
