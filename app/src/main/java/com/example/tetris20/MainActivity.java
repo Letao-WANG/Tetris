@@ -8,6 +8,7 @@ import android.os.Message;
 import android.widget.Button;
 import android.widget.GridView;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,8 +16,12 @@ public class MainActivity extends AppCompatActivity {
     private GridView mGridView;
     BlockAdapter blockAdapter;
     Timer timer;
+    int movingBlocksNumber;
+    Random random;
     private Button mButtonLeft;
     private Button mButtonRight;
+    private Button mButtonRotate;
+    private Button mButtonPause;
 
     final Handler myHandler = new Handler() {
         @Override
@@ -45,15 +50,23 @@ public class MainActivity extends AppCompatActivity {
             }
 
         ShapeStats.initShapes();
-        blocksTransfer(blockAdapter.movingBlocks, ShapeStats.shapes.get(0));
+        newShape(0);
 
         mButtonLeft = findViewById(R.id.button_left);
         mButtonRight = findViewById(R.id.button_right);
+        mButtonRotate = findViewById(R.id.button_rotate);
+        mButtonPause = findViewById(R.id.button_pause);
         mButtonLeft.setOnClickListener(v -> {
             movingBlocksToLeft();
         });
         mButtonRight.setOnClickListener(v -> {
             movingBlocksToRight();
+        });
+        mButtonRotate.setOnClickListener(v -> {
+            movingBlocksRotate();
+        });
+        mButtonPause.setOnClickListener(v -> {
+            stopTimer();
         });
 
         timer = new Timer();
@@ -62,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 myHandler.sendEmptyMessage(0);
             }
-        }, 0, 1000);
+        }, 0, 2000);
     }
 
     public void update() {
@@ -86,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     // new shape
-                    newShape(0);
+                    random = new Random();
+                    movingBlocksNumber = random.nextInt(2);
+                    newShape(movingBlocksNumber);
                     break;
                 }
             }
@@ -115,9 +130,15 @@ public class MainActivity extends AppCompatActivity {
 
     void newShape(int number) {
         blocksTransfer(blockAdapter.movingBlocks, ShapeStats.shapes.get(number));
+        blockAdapter.centerX = 1;
+        blockAdapter.centerY = 4;
     }
 
     void gameOver() {
+        stopTimer();
+    }
+
+    void stopTimer(){
         if (timer != null) {
             timer.cancel();
             // need to set null
@@ -130,9 +151,9 @@ public class MainActivity extends AppCompatActivity {
         // check for collision
         for (int x = 0; x < 10; x++) {
             for (int y = 1; y < 10; y++) {
-                if (blockAdapter.fixedBlocks[x][y - 1] == 1 && blockAdapter.movingBlocks[x][y] == 1 )
+                if (blockAdapter.fixedBlocks[x][y - 1] == 1 && blockAdapter.movingBlocks[x][y] == 1)
                     return;
-                if(blockAdapter.movingBlocks[x][0] == 1)
+                if (blockAdapter.movingBlocks[x][0] == 1)
                     return;
             }
         }
@@ -144,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 blockAdapter.movingBlocks[x][y] = 0;
             }
         }
+        blockAdapter.centerY--;
     }
 
     void movingBlocksToRight() {
@@ -151,9 +173,9 @@ public class MainActivity extends AppCompatActivity {
         // check for collision
         for (int x = 0; x < 10; x++) {
             for (int y = 8; y >= 0; y--) {
-                if (blockAdapter.fixedBlocks[x][y + 1] == 1 && blockAdapter.movingBlocks[x][y] == 1 )
+                if (blockAdapter.fixedBlocks[x][y + 1] == 1 && blockAdapter.movingBlocks[x][y] == 1)
                     return;
-                if(blockAdapter.movingBlocks[x][9] == 1)
+                if (blockAdapter.movingBlocks[x][9] == 1)
                     return;
             }
         }
@@ -165,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 blockAdapter.movingBlocks[x][y] = 0;
             }
         }
+        blockAdapter.centerY++;
     }
 
     void blocksDown(int[][] blocks) {
@@ -174,5 +197,32 @@ public class MainActivity extends AppCompatActivity {
                 blocks[x - 1][y] = 0;
             }
         }
+        blockAdapter.centerX++;
     }
+
+    void movingBlocksRotate() {
+        blockAdapter.movingBlocks = rotate(blockAdapter.centerX, blockAdapter.centerY, blockAdapter.movingBlocks);
+    }
+
+    int[][] rotate(int centerX, int centerY, int[][] blocks) {
+
+        if(centerX ==0 || centerX == blocks.length-1 || centerY == 0 || centerY == blocks[0].length-1){
+            return blocks;
+        }
+
+        int l = 3;//length
+        int[][] result = new int[blocks.length][blocks[0].length];
+
+        for (int i = centerX - 1; i <= centerX + 1; i++) {
+            for (int j = centerY - 1; j <= centerY + 1; j++) {
+                if(blockAdapter.fixedBlocks[j-centerY+centerX][l-i+centerX+centerY-3] != 0){
+                    return blocks;
+                }
+                result[j-centerY+centerX][l-i+centerX+centerY-3] = blocks[i][j];
+//                result[j-(centerY-1)+centerX-1][l-1-i+(centerX-1)+centerY-1] = blocks[i][j];
+            }
+        }
+        return result;
+    }
+
 }

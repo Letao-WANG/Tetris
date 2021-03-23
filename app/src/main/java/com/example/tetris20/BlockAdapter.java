@@ -15,6 +15,7 @@ public class BlockAdapter extends BaseAdapter {
     public int movingBlocks[][] = new int[10][10];
     public int fixedBlocks[][] = new int[10][10];
     public int allBlocks[][] = new int[10][10];
+    public int centerX, centerY;
 
 
     public BlockAdapter(Context context) {
@@ -67,6 +68,9 @@ public class BlockAdapter extends BaseAdapter {
             holder.imageView.setBackgroundColor(colors2[fixedBlocks[x][y]]);
         else
             holder.imageView.setBackgroundColor(colors2[fixedBlocks[x][y]]);
+
+        if(x == centerX && y == centerY)
+            holder.imageView.setBackgroundColor(Color.GRAY);
 
         return convertView;
     }
