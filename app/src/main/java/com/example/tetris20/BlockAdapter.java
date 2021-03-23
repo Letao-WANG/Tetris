@@ -43,7 +43,7 @@ public class BlockAdapter extends BaseAdapter {
     }
 
     int[] colors  = {Color.WHITE, Color.BLUE};
-    int[] colors2  = {Color.WHITE, Color.RED, Color.GREEN};
+    int[] colors2  = {Color.WHITE, Color.RED, Color.GREEN, Color.BLACK};
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

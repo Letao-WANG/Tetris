@@ -47,7 +47,7 @@ public class ShapeStats {
         iShape[1][4] = 1;
         iShape[2][4] = 1;
         iShape[3][4] = 1;
-        shapes.put(4, oShape);
+        shapes.put(4, iShape);
 
     }
 
