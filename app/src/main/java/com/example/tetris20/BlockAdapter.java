@@ -42,8 +42,8 @@ public class BlockAdapter extends BaseAdapter {
         public ImageView imageView;
     }
 
-    int[] colors  = {Color.WHITE, Color.BLUE};
-    int[] colors2  = {Color.WHITE, Color.RED, Color.GREEN, Color.BLACK};
+    int[] colors  = {Color.WHITE, Color.BLACK};
+    int[] colors2  = {Color.WHITE, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK};
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -65,12 +65,12 @@ public class BlockAdapter extends BaseAdapter {
         if(movingBlocks[x][y] == 1)
             holder.imageView.setBackgroundColor(colors[movingBlocks[x][y]]);
         else if(fixedBlocks[x][y] == 1)
-            holder.imageView.setBackgroundColor(colors2[fixedBlocks[x][y]]);
+            holder.imageView.setBackgroundColor(colors[fixedBlocks[x][y]]);
         else
             holder.imageView.setBackgroundColor(colors2[fixedBlocks[x][y]]);
-
-        if(x == centerX && y == centerY)
-            holder.imageView.setBackgroundColor(Color.GRAY);
+//
+//        if(x == centerX && y == centerY)
+//            holder.imageView.setBackgroundColor(Color.GRAY);
 
         return convertView;
     }

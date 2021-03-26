@@ -25,7 +25,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
         Set<String> setScore = settings.getStringSet("setScore", new HashSet<String>());
 
         for(String s : setScore) {
-            scoreAdapter.listRecord.add(new Record(s.substring(0, s.length()-3), s.substring(s.length()-3)));
+            scoreAdapter.listRecord.add(new Record(s.substring(0, s.length()-3), String.valueOf(Integer.parseInt(s.substring(s.length()-3)))));
         }
 
         mListView = findViewById(R.id.list_view);
