@@ -32,9 +32,6 @@ public class SelectActivity extends AppCompatActivity implements View.OnClickLis
         grade4.setOnClickListener(this);
         grade5.setOnClickListener(this);
 
-
-        ActivityManager.getInstance().addActivity(this);
-
     }
 
     @Override

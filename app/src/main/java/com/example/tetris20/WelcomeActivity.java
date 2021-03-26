@@ -17,8 +17,6 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-
-
         mButtonStart = findViewById(R.id.button_start);
         mButtonScore = findViewById(R.id.button_score);
         mButtonQuit = findViewById(R.id.button_quit);
@@ -34,10 +32,7 @@ public class WelcomeActivity extends AppCompatActivity {
         });
 
         mButtonQuit.setOnClickListener(v -> {
-            finish();
-            System.exit(0);
+            finishAffinity();
         });
-
-        ActivityManager.getInstance().addActivity(this);
     }
 }

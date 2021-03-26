@@ -38,9 +38,9 @@ public class GameOverActivity extends AppCompatActivity {
             startActivity(intent);
         });
         buttonExit.setOnClickListener(v -> {
-            ActivityManager.getInstance().exit();
+            finishAffinity();
         });
 
-        ActivityManager.getInstance().addActivity(this);
+
     }
 }

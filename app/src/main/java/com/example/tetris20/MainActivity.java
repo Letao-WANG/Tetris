@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 
@@ -123,8 +124,6 @@ public class MainActivity extends AppCompatActivity {
                 myHandler.sendEmptyMessage(0);
             }
         }, 0, timeInterval);
-
-        ActivityManager.getInstance().addActivity(this);
     }
 
     public void update() {

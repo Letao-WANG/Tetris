@@ -2,6 +2,7 @@ package com.example.tetris20;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,13 @@ public class ScoreBoardActivity extends AppCompatActivity {
         mListView = findViewById(R.id.list_view);
         mListView.setAdapter(scoreAdapter);
 
-        ActivityManager.getInstance().addActivity(this);
+
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        Intent intent = new Intent(ScoreBoardActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

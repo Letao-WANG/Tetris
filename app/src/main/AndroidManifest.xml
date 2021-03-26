@@ -18,9 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SelectActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ScoreBoardActivity" />
+        <activity android:name=".SelectActivity" android:parentActivityName=".WelcomeActivity"></activity>
+        <activity android:name=".MainActivity" android:parentActivityName=".SelectActivity"></activity>
+        <activity android:name=".ScoreBoardActivity" android:parentActivityName=".WelcomeActivity"></activity>
     </application>
 
 </manifest>
