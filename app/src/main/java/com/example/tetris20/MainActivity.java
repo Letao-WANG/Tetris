@@ -3,13 +3,17 @@ package com.example.tetris20;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.GridView;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     int movingBlocksNumber;
     Random random;
     int grade;
+    String name;
+    int score = 0;
+    SharedPreferences settings;
     private Button mButtonLeft;
     private Button mButtonRight;
     private Button mButtonRotate;
@@ -46,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         grade = intent.getIntExtra("grade", 3);
+        name = intent.getStringExtra("name");
 
         switch (grade) {
             case 1:
@@ -115,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
                 myHandler.sendEmptyMessage(0);
             }
         }, 0, timeInterval);
+
+        ActivityManager.getInstance().addActivity(this);
     }
 
     public void update() {
@@ -164,6 +174,23 @@ public class MainActivity extends AppCompatActivity {
 
     void gameOver() {
         stopTimer();
+
+        // store data
+        settings = getSharedPreferences("settings", 0);
+        Set<String> set = new HashSet<>();
+        Set<String> setScore = settings.getStringSet("setScore", new HashSet<String>());
+        set.addAll(setScore);
+        set.add(name + String.format("%1$03d", score));
+        settings.edit().putStringSet("setScore", set).apply();
+
+        Intent intent = new Intent(MainActivity.this, GameOverActivity.class);
+        intent.putExtra("score", score);
+        startActivity(intent);
+
+//        SharedPreferences.Editor editor = settings.edit();
+//        // score : 010 - 990
+//        editor.putString("NameScore", name + String.valueOf(score));
+//        editor.commit();
     }
 
     void stopTimer(){
@@ -254,6 +281,9 @@ public class MainActivity extends AppCompatActivity {
 
         // if blocks is I shape
         if(movingBlocksNumber == 4){
+            if(centerX == blocks.length-2 || centerY == blocks[0].length-2){
+                return blocks;
+            }
             if(blocks[centerX+1][centerY] == 1){
                 result[centerX][centerY-1] = 1;
                 result[centerX][centerY] = 1;
@@ -302,6 +332,7 @@ public class MainActivity extends AppCompatActivity {
                             blockAdapter.fixedBlocks[x][y] = blockAdapter.fixedBlocks[x - 1][y];
                         }
                     }
+                    score += 10;
                 }
             }
         }while(isClear);
