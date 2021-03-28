@@ -8,10 +8,6 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * Created by dell on 2018/3/29.
- */
-
 public class SelectActivity extends AppCompatActivity implements View.OnClickListener {
     Button grade1,grade2,grade3,grade4, grade5;
     EditText textName;
@@ -19,11 +15,11 @@ public class SelectActivity extends AppCompatActivity implements View.OnClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
-        grade1 = (Button) findViewById(R.id.grade1);
-        grade2 = (Button) findViewById(R.id.grade2);
-        grade3 = (Button) findViewById(R.id.grade3);
-        grade4 = (Button) findViewById(R.id.grade4);
-        grade5 = (Button) findViewById(R.id.grade5);
+        grade1 = findViewById(R.id.grade1);
+        grade2 = findViewById(R.id.grade2);
+        grade3 = findViewById(R.id.grade3);
+        grade4 = findViewById(R.id.grade4);
+        grade5 = findViewById(R.id.grade5);
         textName = findViewById(R.id.text_name);
 
         grade1.setOnClickListener(this);

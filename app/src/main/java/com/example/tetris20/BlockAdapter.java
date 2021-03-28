@@ -10,11 +10,11 @@ import android.widget.ImageView;
 
 public class BlockAdapter extends BaseAdapter {
 
-    private Context mContext;
-    private LayoutInflater mLayoutInflater;
-    public int movingBlocks[][] = new int[15][10];
-    public int fixedBlocks[][] = new int[15][10];
-    public int allBlocks[][] = new int[15][10];
+    private final Context mContext;
+    private final LayoutInflater mLayoutInflater;
+    public int[][] movingBlocks = new int[15][10];
+    public int[][] fixedBlocks = new int[15][10];
+    public int[][] allBlocks = new int[15][10];
     public int centerX, centerY;
 
 
@@ -42,8 +42,10 @@ public class BlockAdapter extends BaseAdapter {
         public ImageView imageView;
     }
 
-    int[] colors  = {Color.WHITE, Color.BLUE};
-    int[] colors2  = {Color.WHITE, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK};
+    // colors of moving blocks
+    int[] colorsMoving = {Color.WHITE, Color.BLUE};
+    // colors of fixed blocks
+    int[] colorsFixed = {Color.WHITE, Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK};
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -63,14 +65,11 @@ public class BlockAdapter extends BaseAdapter {
 
         //values
         if(movingBlocks[x][y] == 1)
-            holder.imageView.setBackgroundColor(colors[movingBlocks[x][y]]);
+            holder.imageView.setBackgroundColor(colorsMoving[movingBlocks[x][y]]);
         else if(fixedBlocks[x][y] == 1)
-            holder.imageView.setBackgroundColor(colors2[fixedBlocks[x][y]]);
+            holder.imageView.setBackgroundColor(colorsFixed[fixedBlocks[x][y]]);
         else
-            holder.imageView.setBackgroundColor(colors2[fixedBlocks[x][y]]);
-//
-//        if(x == centerX && y == centerY)
-//            holder.imageView.setBackgroundColor(Color.GRAY);
+            holder.imageView.setBackgroundColor(colorsFixed[fixedBlocks[x][y]]);
 
         return convertView;
     }

@@ -1,5 +1,8 @@
 package com.example.tetris20;
 
+/**
+ * Define the information for each block of ListView cells in the bulletin board.
+ */
 public class Record {
     String name;
     String score;

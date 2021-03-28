@@ -27,7 +27,7 @@ public class GameOverActivity extends AppCompatActivity {
         buttonMenu = findViewById(R.id.button_menu);
         buttonExit = findViewById(R.id.button_exit);
 
-        textScore.setText("Your score : " + String.valueOf(score));
+        textScore.setText("Your score : " + score);
 
         buttonAgain.setOnClickListener(v -> {
             Intent intent = new Intent(GameOverActivity.this, MainActivity.class);

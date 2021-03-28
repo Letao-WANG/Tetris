@@ -3,8 +3,7 @@ package com.example.tetris20;
 import java.util.HashMap;
 
 public class ShapeStats {
-//    static int[][] shape = new int[10][10];
-    static HashMap<Integer, int[][]> shapes = new HashMap<Integer, int[][]>();
+    static HashMap<Integer, int[][]> shapes = new HashMap<>();
 
     public static void initShapes() {
 

@@ -8,13 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 
 public class ScoreAdapter extends BaseAdapter {
 
-    private Context mContext;
-    private LayoutInflater mLayoutInflater;
+    private final Context mContext;
+    private final LayoutInflater mLayoutInflater;
     public ArrayList<Record> listRecord = new ArrayList<>();
 
     public ScoreAdapter(Context context) {

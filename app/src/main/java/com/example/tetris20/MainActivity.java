@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 
@@ -23,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     BlockAdapter blockAdapter;
     Timer timer;
     int timeInterval=800;
+    // the number of moving shape
     int movingBlocksNumber;
     Random random;
     int grade;
@@ -126,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
         }, 0, timeInterval);
     }
 
+    /**
+     * Update the information of Blocks
+     */
     public void update() {
         // Check for collision
         for (int i = 1; i < 15; i++) {
@@ -158,12 +160,21 @@ public class MainActivity extends AppCompatActivity {
         blockAdapter.addBlocks();
     }
 
+    /**
+     * Assigning the value of an array to another array
+     * @param newBlocks
+     * @param oldBlocks
+     */
     void blocksTransfer(int[][] newBlocks, int[][] oldBlocks) {
         for (int x = 0; x < 15; x++)
             for (int y = 0; y < 10; y++)
                 newBlocks[x][y] = oldBlocks[x][y];
     }
 
+    /**
+     * Create a new shape
+     * @param number
+     */
     void newShape(int number) {
         blocksTransfer(blockAdapter.movingBlocks, ShapeStats.shapes.get(number));
         blockAdapter.centerX = 1;
@@ -187,6 +198,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * No more new shape and update
+     */
     void stopTimer(){
         if (timer != null) {
             timer.cancel();
@@ -263,6 +277,13 @@ public class MainActivity extends AppCompatActivity {
         blockAdapter.movingBlocks = rotate(blockAdapter.centerX, blockAdapter.centerY, blockAdapter.movingBlocks);
     }
 
+    /**
+     * rotate the blocks
+     * @param centerX
+     * @param centerY
+     * @param blocks
+     * @return
+     */
     int[][] rotate(int centerX, int centerY, int[][] blocks) {
 
 
@@ -298,18 +319,21 @@ public class MainActivity extends AppCompatActivity {
             return blocks;
         }
 
+        // others
         for (int i = centerX - 1; i <= centerX + 1; i++) {
             for (int j = centerY - 1; j <= centerY + 1; j++) {
                 if(blockAdapter.fixedBlocks[j-centerY+centerX][l-i+centerX+centerY-3] != 0){
                     return blocks;
                 }
                 result[j-centerY+centerX][l-i+centerX+centerY-3] = blocks[i][j];
-//                result[j-(centerY-1)+centerX-1][l-1-i+(centerX-1)+centerY-1] = blocks[i][j];
             }
         }
         return result;
     }
 
+    /**
+     * Is it possible to eliminate a line
+     */
     void checkClear(){
         boolean isClear = false;
         do {
