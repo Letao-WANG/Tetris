@@ -185,11 +185,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, GameOverActivity.class);
         intent.putExtra("score", score);
         startActivity(intent);
-
-//        SharedPreferences.Editor editor = settings.edit();
-//        // score : 010 - 990
-//        editor.putString("NameScore", name + String.valueOf(score));
-//        editor.commit();
     }
 
     void stopTimer(){
